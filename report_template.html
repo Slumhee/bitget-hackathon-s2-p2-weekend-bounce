@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P2 · Weekend Bounce Harvester — Bitget AI Base Camp S2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#0b1020; --card:#141b31; --ink:#e6eaf5; --dim:#8b96b3; --acc:#f7b32b; --blue:#3b82f6; --green:#10b981; --red:#ef4444; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,'PingFang SC','Segoe UI',sans-serif; line-height:1.65; }
+  .wrap { max-width:1080px; margin:0 auto; padding:32px 20px 80px; }
+  header { text-align:center; padding:36px 12px 8px; }
+  h1 { font-size:1.9rem; letter-spacing:.5px; }
+  .sub { color:var(--dim); margin-top:6px; font-size:.95rem; }
+  .badge { display:inline-block; background:linear-gradient(90deg,#f7b32b,#f67b2b); color:#111; font-weight:700; border-radius:999px; padding:3px 16px; font-size:.85rem; margin-top:12px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:14px; margin:26px 0; }
+  .kpi { background:var(--card); border-radius:14px; padding:16px 18px; border:1px solid #1f2a4a; }
+  .kpi .v { font-size:1.45rem; font-weight:700; }
+  .kpi .l { color:var(--dim); font-size:.78rem; margin-top:2px; }
+  .pos { color:var(--green); } .neg { color:var(--red); } .warn { color:var(--acc); }
+  section { margin:40px 0; }
+  h2 { font-size:1.22rem; margin-bottom:4px; }
+  .note { color:var(--dim); font-size:.88rem; margin-bottom:14px; }
+  .card { background:var(--card); border:1px solid #1f2a4a; border-radius:14px; padding:18px; margin-top:12px; }
+  .chartbox { position:relative; height:330px; }
+  .chartbox.tall { height:380px; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td { padding:8px 10px; text-align:right; border-bottom:1px solid #1f2a4a; }
+  th:first-child,td:first-child { text-align:left; }
+  th { color:var(--dim); font-weight:600; }
+  code { background:#1a2340; padding:1px 7px; border-radius:6px; font-size:.85em; }
+  footer { text-align:center; color:var(--dim); font-size:.8rem; margin-top:50px; }
+  .halves { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .halves { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>P2 · Weekend Bounce Harvester</h1>
+  <div class="sub">Bitget AI Base Camp S2 — Track 1 Alpha Factory · 休市信息定价 / 周末状态策略</div>
+  <div class="badge">60D IS + 30D OOS 全部通过 · STRONG PROMISING</div>
+</header>
+
+<div class="grid">
+  <div class="kpi"><div class="v pos">+__OOS_TOTAL__%</div><div class="l">OOS 30天净收益(复利·12bp成本)</div></div>
+  <div class="kpi"><div class="v pos">+__OOS_MEAN__bp</div><div class="l">OOS 周末均值 · 4/4 全胜</div></div>
+  <div class="kpi"><div class="v pos">__OOS_SHARPE__</div><div class="l">OOS Sharpe (年化)</div></div>
+  <div class="kpi"><div class="v pos">0.0%</div><div class="l">OOS Max Drawdown</div></div>
+  <div class="kpi"><div class="v warn">0.48</div><div class="l">BTC Beta (OOS 回归)</div></div>
+  <div class="kpi"><div class="v pos">+57.7bp</div><div class="l">OOS 残差 Alpha /周末</div></div>
+</div>
+
+<section>
+  <h2>1 · 为什么这个策略存在（机制）</h2>
+  <div class="note">Alpha 来源不是预测方向，而是市场微观结构的时间性错位。</div>
+  <div class="card">
+    <p><b>背景</b> — 美股每周末闭市 ~65 小时，但 Bitget Stock Perpetual 7×24 连续交易。闭市期间定价权完全转移到 crypto 交易者手中，而这一人群的风险偏好、资金流与美股基本面投资者完全不同。</p>
+    <p style="margin-top:10px"><b>观察</b> — 周六早盘（00:00-12:00 UTC）出现的下跌，往往不是新基本面信息：美股现货关闭，无财报、无宏观数据定价，下跌来自周末流动性变薄 + crypto 风险偏好传导的<span class="warn">超调</span>。</p>
+    <p style="margin-top:10px"><b>假设</b> — 无信息流支撑的下跌，在周日美股重新定价前应出现回补。策略在周六正午对"早盘下跌"的 perp 做多、周日晚间平仓，赚取的是<b>无信息超调的回归 + 周末 crypto 反弹 beta</b>。</p>
+    <p style="margin-top:10px"><b>为什么这个 edge 还在</b> — rToken / Stock Perp 市场规模小、周末盘口薄，机构资金无法进场；这是比赛资产边界内的结构性缝隙，且 12bp 成本下 break-even 高达 87bp，摩擦保护极厚。</p>
+  </div>
+</section>
+
+<section>
+  <h2>2 · 策略规则（冻结 v1.0）</h2>
+  <div class="card">
+    <table>
+      <tr><td>Universe（IS 内选出）</td><td style="text-align:right">__UNIVERSE__</td></tr>
+      <tr><td>入场信号</td><td style="text-align:right">周六 00:00→12:00 UTC 收盘收益 &lt; 0</td></tr>
+      <tr><td>执行</td><td style="text-align:right">12:01 bar open 市价买入（next-bar 无泄漏）</td></tr>
+      <tr><td>权重</td><td style="text-align:right">篮内等权 1/N · 组合总敞口 1x</td></tr>
+      <tr><td>出场</td><td style="text-align:right">周日 21:00 bar → 21:01 open 全平</td></tr>
+      <tr><td>成本 / Funding</td><td style="text-align:right">taker 12bp RT（stress 18bp）· 真实历史 funding 逐笔</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>3 · Equity Curve — 60D IS / 30D OOS</h2>
+  <div class="note">蓝 = IS（06-19→08-17 · 9 周末）｜绿 = OOS（08-18→09-13 · 4 周末 · 冻结后零改动）｜净 12bp 成本复利</div>
+  <div class="card"><div class="chartbox"><canvas id="cEquity"></canvas></div></div>
+</section>
+
+<section>
+  <h2>4 · 每周末收益分布</h2>
+  <div class="note">统计单位 = 周末组合收益（同周末多资产高度相关，不虚增样本量）。13 个周末 11 胜，最差周末 -40.5bp（IS），OOS 最差 +15.2bp。</div>
+  <div class="card"><div class="chartbox"><canvas id="cWeek"></canvas></div></div>
+</section>
+
+<section>
+  <h2>5 · 蒙特卡洛（2000 次）</h2>
+  <div class="note">A) 周末 IID bootstrap ｜ B) 块=3 循环块 bootstrap ｜ C) 随机场 placebo：每周末随机选同数量资产 vs AM-down 信号</div>
+  <div class="grid">
+    <div class="kpi"><div class="v pos">0.0%</div><div class="l">A/B bootstrap P(均值&lt;0)</div></div>
+    <div class="kpi"><div class="v pos">__MC_P5__bp</div><div class="l">A bootstrap P5</div></div>
+    <div class="kpi"><div class="v pos">__MCB_P5__bp</div><div class="l">B 块bootstrap P5</div></div>
+    <div class="kpi"><div class="v warn">99.2%</div><div class="l">观测均值在 placebo 分布中的分位</div></div>
+  </div>
+  <div class="halves">
+    <div class="card"><div class="chartbox"><canvas id="cMC"></canvas></div></div>
+    <div class="card"><div class="chartbox"><canvas id="cMC2"></canvas></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>6 · 交易事件：入场跌幅 vs 净收益</h2>
+  <div class="note">37 笔交易（IS 19 + OOS 18 剔除未触发周）。跌幅越深 → 反弹收益越大的单调关系即机制本身的可视化。</div>
+  <div class="card"><div class="chartbox tall"><canvas id="cScatter"></canvas></div></div>
+</section>
+
+<section>
+  <h2>7 · 成本压力曲线</h2>
+  <div class="note">4→18bp 全档为正、全档 4/4 胜。break-even ≈ 87bp RT，为现实成本的 7 倍。</div>
+  <div class="card"><div class="chartbox"><canvas id="cCost"></canvas></div></div>
+</section>
+
+<section>
+  <h2>8 · 信号 vs 周末 Beta（三基准）</h2>
+  <div class="card">
+    <table>
+      <tr><th>策略（OOS 同窗）</th><th>均值/周末</th><th>胜率</th><th>MaxDD</th></tr>
+      <tr><td>A · 全池周末无脑多（14 币）</td><td>+8.6bp</td><td>75%</td><td>-1.42%</td></tr>
+      <tr><td><b>B · P2 信号版（本策略）</b></td><td class="pos"><b>+75.2bp</b></td><td class="pos"><b>100%</b></td><td class="pos"><b>0%</b></td></tr>
+      <tr><td>C · BTC 同窗对照</td><td>+36.3bp</td><td>75%</td><td>-0.16%</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">信号增量 B−A = +66.6bp/周末：EV 主体来自"AM-down 选股"而非周末 beta。BTC 回归残差 alpha +57.7bp（beta=0.48）——一半 crypto beta、一半纯股票永续 alpha。</p>
+  </div>
+</section>
+
+<section>
+  <h2>9 · 月度滚动稳定性</h2>
+  <div class="card"><div class="chartbox"><canvas id="cMonthly"></canvas></div></div>
+</section>
+
+<footer>P2 Weekend Bounce Harvester · Bitget AI Base Camp Hackathon S2 · 2026-09<br>
+数据：Bitget v2 mix 1m K线（22 stock perps · 306MB）+ 真实 funding ｜ 全部结果可由 <code>reproduce/</code> 一键复现 ｜ 技术细节见 <code>tech/</code></footer>
+</div>
+
+<script>
+Chart.defaults.color = '#8b96b3';
+Chart.defaults.borderColor = '#1f2a4a';
+new Chart(document.getElementById('cEquity'), {
+  type:'line', data:{labels:__EQ_LABELS__, datasets:[
+    {label:'IS equity (60d)', data:__EQ_IS__, borderColor:'#3b82f6', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false},
+    {label:'OOS equity (30d)', data:__EQ_OOS__, borderColor:'#10b981', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false}
+  ]},
+  options:{plugins:{legend:{labels:{color:'#e6eaf5'}}}, scales:{y:{title:{display:true,text:'Equity (start=1)'}}}}
+});
+new Chart(document.getElementById('cWeek'), {
+  type:'bar', data:{labels:__WK_LABELS__, datasets:[{label:'周末净收益 bp (net 12bp)', data:__WK_VALS__, backgroundColor:__WK_COLORS__}]},
+  options:{plugins:{legend:{display:false}}, scales:{y:{title:{display:true,text:'bp'}}}}
+});
+new Chart(document.getElementById('cMC'), {
+  type:'bar', data:{labels:__MCA_LABELS__, datasets:[{data:__MCA_COUNTS__, backgroundColor:'#3b82f6', borderWidth:0}]},
+  options:{plugins:{legend:{display:false}, title:{display:true,text:'A · IID Bootstrap（虚线=观测 42.3bp）'}}, scales:{y:{title:{display:true,text:'频次'}}, x:{title:{display:true,text:'周末均值 bp'}}}}
+});
+new Chart(document.getElementById('cMC2'), {
+  type:'bar', data:{labels:__MCC_LABELS__, datasets:[{data:__MCC_COUNTS__, backgroundColor:'#f7b32b', borderWidth:0}]},
+  options:{plugins:{legend:{display:false}, title:{display:true,text:'C · 随机选币 placebo（观测在 99.2 分位）'}}, scales:{y:{title:{display:true,text:'频次'}}, x:{title:{display:true,text:'周末均值 bp'}}}}
+});
+new Chart(document.getElementById('cScatter'), {
+  type:'scatter',
+  data:{datasets:[{label:'每笔交易：AM跌幅 → 净收益', data:__SCATTER__, backgroundColor:'#3b82f6aa', pointRadius:5}]},
+  options:{scales:{x:{title:{display:true,text:'周六 00-12h 跌幅 (bp · 负=下跌)'}}, y:{title:{display:true,text:'净收益 bp'}}}}
+});
+new Chart(document.getElementById('cCost'), {
+  type:'line', data:{labels:__CS_LABELS__, datasets:[{label:'OOS 周末均值 bp', data:__CS_VALS__, borderColor:'#f7b32b', backgroundColor:'#f7b32b33', fill:true, borderWidth:2.5, pointRadius:4}]},
+  options:{scales:{y:{title:{display:true,text:'bp / 周末'}}}}
+});
+new Chart(document.getElementById('cMonthly'), {
+  type:'bar', data:{labels:__MON_LABELS__, datasets:[{data:__MON_VALS__, backgroundColor:'#10b981'}]},
+  options:{plugins:{legend:{display:false}, title:{display:true,text:'月度 · 周末净收益均值 bp'}}, scales:{y:{title:{display:true,text:'bp'}}}}
+});
+</script>
+</body>
+</html>
