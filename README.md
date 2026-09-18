@@ -53,7 +53,7 @@ p2-weekend-bounce/
 
 ```bash
 cd reproduce
-bash run_all.sh        # 约 5-10 分钟，重新生成全部结果
+bash run_all.sh        # 约 5-10 分钟，即可重新生成全部结果
 ```
 
 依赖：Python 3.10+，pandas，numpy。无需 API key（原始数据已随包附带）。
