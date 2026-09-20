@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 reproduce/*.log
+live/cache/
+live/logs/
