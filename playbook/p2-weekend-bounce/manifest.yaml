@@ -1,0 +1,93 @@
+name: p2-weekend-bounce
+version: "1.0.0"
+display_name: "P2 Weekend Bounce Harvester"
+display_name_i18n:
+  en: "P2 Weekend Bounce Harvester"
+  zh: "P2 周末反弹收割机"
+  zh-tw: "P2 週末反彈收割機"
+  es: "P2 Cosechador de Rebote de Fin de Semana"
+  ja: "P2 週末反発ハーベスター"
+  vi: "P2 Thu Hoạch Hồi Phục Cuối Tuần"
+description: "Buys Saturday-morning drawdowns on Bitget US-stock perpetuals and exits Sunday night, harvesting weekend overshoot mean-reversion."
+description_i18n:
+  en: "Buys Saturday-morning drawdowns on Bitget US-stock perpetuals and exits Sunday night, harvesting weekend overshoot mean-reversion."
+  zh: "周六正午买入早盘下跌的美股永续合约，周日晚间平仓，收割周末超调回归。"
+  zh-tw: "週六正午買入早盤下跌的美股永續合約，週日晚間平倉，收割週末超調回歸。"
+  es: "Compra caídas del sábado por la mañana en perpetuos de acciones de EE. UU. en Bitget y cierra el domingo por la noche."
+  ja: "土曜正午に下落した米国株パーペチュアルを買い、日曜夜に決済して週末の行き過ぎ回帰を収穫します。"
+  vi: "Mua sự giảm sáng thứ Bảy trên hợp đồng vĩnh viễn cổ phiếu Mỹ trên Bitget và đóng vị thế tối Chủ nhật."
+long_description: |
+  When the native US equity market closes for the weekend, price discovery for
+  tokenized stock perpetuals shifts entirely to crypto traders. This strategy
+  is built on the observation that Saturday-morning drawdowns on Bitget US-stock
+  perpetualuals are frequently information-less overshoot: thin weekend liquidity
+  overreacts, and prices drift back toward the native fair value anchor before
+  Sunday night. The Playbook buys that overshoot and exits the position Sunday
+  evening, capturing the reversion instead of predicting direction.
+
+  Entry happens at Saturday noon UTC. For each of nine frozen US-stock
+  perpetuals, the strategy measures the return from the Saturday midnight UTC
+  close to the Saturday noon UTC close. Any symbol with a negative morning
+  return is bought at market. Each selected symbol receives a fixed equal
+  slice of the configured budget, so gross exposure scales with how many names
+  triggered, up to a maximum of one-times account notional. There is no
+  pyramiding and no re-entry within the same weekend.
+
+  Exit is time-based and unconditional. At Sunday evening UTC every open position
+  is closed at market. The roughly thirty-three hour holding period is itself
+  the exit mechanism; there is no profit target and no stop loss, because the
+  historical edge lives in the weekend window as a whole rather than in
+  intraweek price paths.
+
+  Subscribers can tune the total budget, which linearly scales position size
+  and absolute profit and loss without changing any signal, and the maximum
+  number of concurrent names, which controls how broad a weekend selloff must
+  be before the basket is fully deployed.
+
+  The strategy underperforms when weekend macro shocks keep pushing prices away
+  from the native anchor through Sunday, when overall crypto risk appetite
+  collapses and drags the basket with it, or when trading costs and slippage on
+  thin weekend books exceed the historically harvested reversion. It carries
+  meaningful bitcoin beta, so a sharp weekend crypto selloff can hurt even when
+  individual stock stories are unchanged.
+market_type: contract
+trading_symbols:
+  - SPYUSDT
+  - METAUSDT
+  - NFLXUSDT
+  - AAPLUSDT
+  - HOODUSDT
+  - COINUSDT
+  - TSLAUSDT
+  - QQQUSDT
+  - RDDTUSDT
+output_kind: trade_strategy
+decision_mode: deterministic
+backtest_support: full
+runtime_profile: deterministic
+execution_mode: follow_trade
+follow_trade_supported: true
+official_evidence_kind: paper
+
+schedule:
+  cron: "0 12 * * 6"
+  tz: "UTC"
+
+strategy_config:
+  total_budget: "100000"
+  per_symbol_fraction_num: 9
+  max_positions: 9
+
+user_config_schema:
+  total_budget:
+    type: string
+    default: "100000"
+    label: "Total notional budget (USDT)"
+  max_positions:
+    type: integer
+    default: 9
+    min: 1
+    max: 9
+    label: "Maximum concurrent weekend positions"
+
+tags: ["weekend", "mean-reversion", "stock-perp", "rwa", "us-stocks", "p2"]

@@ -180,9 +180,17 @@ def run_weekend(sat_iso):
                 marks[sym] = {'px': last[4],
                               'unreal_bp': round((last[4] / pos['entry_px'] - 1) * 1e4, 2)}
         if marks:
-            emit(sat_iso, {'event': 'mark', 'marks': marks,
-                           'unreal_mean_bp': round(sum(m['unreal_bp'] for m in marks.values())
-                                                   / len(marks), 2)})
+            ev = {'event': 'mark', 'marks': marks,
+                  'unreal_mean_bp': round(sum(m['unreal_bp'] for m in marks.values())
+                                          / len(marks), 2)}
+            try:  # bitget-signal perception layer (official Agent Hub skill backend)
+                from bitget_signal import btc_context
+                btc = btc_context()
+                if btc:
+                    ev['btc_context'] = btc  # strategy BTC beta 0.48 — regime context
+            except Exception:  # noqa: BLE001
+                pass
+            emit(sat_iso, ev)
     return positions
 
 
