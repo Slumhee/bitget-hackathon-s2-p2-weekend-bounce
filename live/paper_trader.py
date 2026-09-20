@@ -193,7 +193,8 @@ def current_saturday_iso():
 
 
 if __name__ == '__main__':
-    sat_iso = sys.argv[1] if len(sys.argv) > 1 else current_saturday_iso()
+    sat_iso = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('-') else current_saturday_iso()
+    once = '--once' in sys.argv
     emit(sat_iso, {'event': 'loop_start', 'mode': MODE,
                    'saturday': sat_iso, 'notional_usdt': NOTIONAL_USDT})
     while True:
@@ -204,4 +205,6 @@ if __name__ == '__main__':
                 break
         except Exception as e:  # noqa: BLE001
             emit(sat_iso, {'event': 'error', 'error': str(e)})
+        if once:
+            break
         time.sleep(POLL_SECONDS)
