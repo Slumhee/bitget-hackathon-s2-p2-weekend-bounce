@@ -67,18 +67,22 @@ backtest_support: full
 runtime_profile: deterministic
 execution_mode: follow_trade
 follow_trade_supported: true
-official_evidence_kind: paper
 
 schedule:
   cron: "0 12 * * 6"
   tz: "UTC"
 
 strategy_config:
+  margin_budget: "100000"
   total_budget: "100000"
   per_symbol_fraction_num: 9
   max_positions: 9
 
 user_config_schema:
+  margin_budget:
+    type: string
+    default: "100000"
+    label: "Margin budget for per-strategy return accounting (USDT)"
   total_budget:
     type: string
     default: "100000"

@@ -72,14 +72,14 @@ class P2WeekendBounceStrategy(Strategy):
         # Sat 12:00 close lands on the bar with open 11:00 (wd==5, hr==11)
         if wd == 5 and hr == 11:
             self._ref_b[iid] = close
-            self._maybe_enter(iid)
+            self._maybe_enter(iid, close)
             return
         # Sun 21:00 flatten: bar open 21:00 (wd==6, hr==21)
         if wd == 6 and hr == 21:
             self._flatten(iid)
             return
 
-    def _maybe_enter(self, iid: InstrumentId) -> None:
+    def _maybe_enter(self, iid: InstrumentId, ref_px: float) -> None:
         if iid not in self._instruments or self._ref_a.get(iid) is None:
             return
         if self._positions_open_count() >= self.cfg.max_positions:
@@ -89,7 +89,7 @@ class P2WeekendBounceStrategy(Strategy):
             return
         inst = self._instruments[iid]
         per_name = Decimal(self.cfg.budget) / Decimal(self.cfg.n_universe)
-        qty = self._qty_for_notional(inst, per_name)
+        qty = self._qty_for_notional(inst, per_name, ref_px)
         if qty is None or qty <= 0:
             return
         order = self.order_factory.market(
@@ -118,12 +118,11 @@ class P2WeekendBounceStrategy(Strategy):
         return sum(len(self.cache.positions_open(instrument_id=iid))
                    for iid in self._instruments)
 
-    def _qty_for_notional(self, inst: Instrument, notional: Decimal) -> Optional[Quantity]:
-        last = self.cache.price(inst.id)
-        if last is None:
+    def _qty_for_notional(self, inst: Instrument, notional: Decimal, ref_px: float) -> Optional[Quantity]:
+        if not ref_px or ref_px <= 0:
             return None
-        raw = notional / Decimal(str(last))
-        return Quantity(raw.quantize(inst.size_precision), inst.size_precision)
+        raw = notional / Decimal(str(ref_px))
+        return Quantity(raw.quantize(Decimal(1).scaleb(-inst.size_precision)), inst.size_precision)
 
     def on_stop(self) -> None:
         for iid in self._instruments:

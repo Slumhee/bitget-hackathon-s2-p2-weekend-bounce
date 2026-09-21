@@ -28,16 +28,49 @@ def _sanitize(value: Any) -> Any:
     return value
 
 
-def _fetch_1h(symbol: str) -> list[dict]:
-    """Fetch up to 90d of closed 1h bars for one symbol (platform cap)."""
-    bars = data.crypto.futures.kline(
-        symbol=symbol,
-        interval=INTERVAL,
-        exchange="bitget",
-        limit=1000,
-        closed_only=True,
-    )
-    return data.to_records(bars)
+def _fetch_1h(symbol: str, days: int = 90) -> list[dict]:
+    """Fetch closed 1h bars for one symbol, paginating past the 1000-bar cap.
+
+    The platform caps each response at 1000 bars and truncates silently from
+    the window end, so we page backward with end_time until the requested
+    day-count is covered or the feed runs dry. De-dup by bar open time.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    now = datetime.now(timezone.utc)
+    all_rows: dict = {}
+    end_time = int(now.timestamp() * 1000)  # endpoint rejects None
+    floor = int((now - timedelta(days=days)).timestamp() * 1000)
+    for _page in range(6):  # 90d of 1h bars needs ~3 pages; cap at 6
+        bars = data.crypto.futures.kline(
+            symbol=symbol,
+            interval=INTERVAL,
+            exchange="bitget",
+            limit=1000,
+            end_time=end_time,
+            closed_only=True,
+        )
+        rows = data.to_records(bars)
+        if not rows:
+            break
+        for row in rows:
+            ts = row.get("time") or row.get("date")
+            if ts is None:
+                continue
+            key = int(ts) if str(ts).isdigit() else ts
+            all_rows[key] = row
+        oldest = None
+        for row in rows:
+            ts = row.get("time") or row.get("date")
+            if ts is None:
+                continue
+            v = int(ts) if str(ts).isdigit() else None
+            if v is not None and (oldest is None or v < oldest):
+                oldest = v
+        if oldest is None or oldest <= floor:
+            break
+        end_time = oldest - 1
+    return [all_rows[k] for k in sorted(all_rows, key=lambda x: str(x))]
 
 
 def _run_historical() -> None:
@@ -169,10 +202,9 @@ def _run_live() -> None:
         meta={"weekend_rule": "Sat 00:00->12:00 UTC close return < 0 -> long; Sun 21:00 UTC flatten",
               "universe": SYMBOLS},
         execute_trade=(
-            lambda sym=symbol: _execute_contract_signal(
+            lambda sym=selected[0]: _execute_contract_signal(
                 symbol=sym, margin_budget=per_name, leverage=leverage)
-            for symbol in selected
-        ) if False else None,
+        ) if selected else None,
     )
 
 
