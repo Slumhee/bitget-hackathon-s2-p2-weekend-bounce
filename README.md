@@ -1,26 +1,42 @@
 # P2 Weekend Bounce Harvester
 
 > Bitget AI Base Camp Hackathon S2 · Track 1 Alpha Factory · 子主题：休市信息定价
+> Bitget 官方生态：GetAgent Playbook（已发布 v0.2.1）+ bitget-mcp-server 数据层 + bitget-signal 感知层
 
 当美股闭市、定价权交给 crypto 交易者时，周六早盘的下跌是"无信息超调"。
 本策略在周六正午买入早盘下跌的 Stock Perpetual、周日晚间平仓，收割超调回归。
 
 **一句话：不是预测方向，是交易市场微观结构的时间性错位。**
 
-## 成绩速览（60D IS + 30D OOS，净 12bp 成本）
+## 🎮 在线体验（Live Demo）
 
-| 指标 | IS (9 周末) | OOS (4 周末, untouched) |
+- **GetAgent Studio 策略页**：<https://getagent.studio/strategy/34e94ee4-f84c-4b80-b324-2318bfaf0bf6>
+  Paper Trading 已开启，每个周六 12:00 UTC 自动运行并留运行日志（比赛要求的 paper 证据）
+- **Bitget Playbook 市场卡片**：<https://www.bitget.com/zh-CN/activity/ai-get-agent/playbook?clacCode=S1UPL1EU>
+  （进入后于「我创建的」/ 合约策略分区查看 "P2 Weekend Bounce Harvester"）
+- **回测报告（GitHub Pages 入口）**：打开本仓库 `index.html`
+
+![GetAgent Studio 分享卡](docs/studio-card.png)
+
+*Studio 分享卡：累计收益率 +2.26%（沙箱回测），Paper Trading 运行中。*
+
+## 成绩速览
+
+**双引擎验证，指标互相印证：**
+
+| 指标 | GetAgent 沙箱回测（1h bar · 90d） | 本地冻结回测（1m bar · 60D IS + 30D OOS） |
 |---|---|---|
-| 周末净收益均值 | +27.7bp | +75.2bp |
-| 胜率 | 66.7% | 100% (4/4) |
-| Sharpe (年化) | 3.12 | 9.01 |
-| MaxDD | -0.46% | 0% |
-| 最差周末 | -40.5bp | +15.2bp |
+| 总收益 | +2.26% | OOS 30 天复利 +3.04% |
+| Sharpe（年化） | 3.63 | 3.12 IS / 9.01 OOS |
+| Sortino（年化） | 32.31 | — |
+| 最大回撤 | -0.43% | -0.46% |
+| 胜率（持仓级） | 75.6% | 66.7% IS / 100% OOS（周末级 4/4） |
+| 交易次数 | 167 fills / 46 round trips | 37 trades |
 
-- 复利总收益：OOS 30 天 +3.04%
-- 蒙特卡洛 2000 次：bootstrap P(负)=0；随机场 placebo 中观测值位于 99.2 分位
+- 蒙特卡洛 2000 次：bootstrap P(负)=0；随机场 placebo 位于 99.2 分位
 - 成本压力 4→18bp RT 全档为正；break-even ≈ 87bp（现实成本的 7 倍）
 - BTC beta 0.48，残差 alpha +57.7bp/周末——一半 crypto beta、一半纯股票永续 alpha
+- 沙箱按真实费率计费（maker 2bp / taker 6bp），funding 在本地回测逐笔计入
 
 ## 目录结构
 
@@ -30,33 +46,35 @@ p2-weekend-bounce/
 ├── README.md               ← 本文件
 ├── build_html.py           ← 报告生成脚本
 ├── report_template.html    ← 报告模板
-├── data/                   ← 全部结果数据（CSV/JSON）
-│   ├── strategy_frozen_config.json   冻结策略配置
-│   ├── trade_log.csv                 37 笔交易明细
-│   ├── weekend_returns.csv           周末组合收益（统计单位）
-│   ├── portfolio_equity.csv          资金曲线
-│   ├── monte_carlo.json              2000 次蒙特卡洛
-│   └── ...                           成本/LOO/beta/诊断
-├── reproduce/              ← 本地复现入口（见 reproduce/README.md）
-│   ├── run_all.sh          一键复现全部结果
-│   ├── study11_*.py        核心管线（数据→筛选→IS→OOS→诊断）
-│   ├── monte_carlo.py      蒙特卡洛
-│   ├── pair_1m/            原始 1m K 线（306MB, 22 资产）
-│   └── pair_funding/       真实 funding 历史
-└── tech/                   ← 技术层（第二层）
-    ├── TECHNICAL.md        架构图 + 策略逻辑图 + 数据流
-    ├── COST_STRESS.md      成本压力与执行假设报告
-    └── LOO_ROBUSTNESS.md   Leave-One-Out 稳健性报告
+├── playbook/               ← Bitget 官方 GetAgent Playbook 包（已发布 v0.2.1）
+│   └── p2-weekend-bounce/
+│       ├── manifest.yaml   ← 双语 manifest（trade_strategy / follow_trade）
+│       ├── backtest.yaml   ← 9 instrument · 真实费率 · Nautilus 回放规格
+│       └── src/            ← Nautilus 策略 + getagent SDK 入口（沙箱回测同款代码）
+├── live/                   ← Bitget 生态实时接入层
+│   ├── bitget_market.py    ← 公共行情客户端（无 key，增量缓存）
+│   ├── weekend_signal.py   ← 实时信号引擎（与回测因果逻辑一致）
+│   ├── paper_trader.py     ← shadow/模拟盘双模式 paper trader（JSONL 日志）
+│   ├── mcp_data.py         ← bitget-mcp-server 官方数据层（美股/ETF）
+│   ├── weekend_premium.py  ← 周末溢价追踪（perp vs 原生收盘，MCP 数据）
+│   ├── bitget_signal.py    ← bitget-signal 感知层（BTC 环境，跨 crypto 因子）
+│   ├── data/               ← Playbook 沙箱结果、周末溢价 CSV 等
+│   └── logs/               ← paper trading JSONL 日志（gitignored）
+├── data/                   ← 全部回测结果数据（CSV/JSON）
+├── reproduce/              ← 本地复现入口（bash run_all.sh，5-10 分钟）
+└── tech/                   ← 技术层：架构 / 成本压力 / LOO 稳健性报告
 ```
 
 ## 快速复现
 
 ```bash
 cd reproduce
-bash run_all.sh        # 约 5-10 分钟，重新生成全部结果
+bash run_all.sh        # 约 5-10 分钟，重新生成全部本地结果
 ```
 
 依赖：Python 3.10+，pandas，numpy。无需 API key（原始数据已随包附带）。
+
+Playbook 沙箱回测结果存于 `live/data/playbook_run_result.json`（run `pbrun-427ab7ec40d8` / `pbrun-0973888d8d5e`，两次结果逐位一致）。
 
 ## 策略规则（冻结 v1.0）
 
@@ -66,9 +84,20 @@ bash run_all.sh        # 约 5-10 分钟，重新生成全部结果
 4. **出场**：周日 21:00 bar → 21:01 open 全平；同周末不再入场
 5. **成本**：taker 12bp RT；funding 按真实历史事件逐笔计入
 
+## Bitget 生态三层接入（S2 比赛工具箱对齐）
+
+| 层 | 官方工具 | 本仓库落点 | 状态 |
+|---|---|---|---|
+| 主路径 | GetAgent Skill + Playbook + Studio | `playbook/` → 已发布 v0.2.1，Paper Trading 已开 | ✅ 运行中 |
+| 数据层 | bitget-mcp-server（美股/ETF 行情与基本面） | `live/mcp_data.py` + `live/data/weekend_premium.csv` | ✅ 实测打通 |
+| 感知层 | bitget-signal（跨 crypto 宏观/情绪/技术面） | `live/bitget_signal.py`，接入 paper trader 盯市 | ✅ 实测打通 |
+
+首个生态数据成果：9 标的中 7 个周六正午相对原生周五收盘溢价（RDDT +67.6bp、META +65.0bp、COIN +41.2bp）——周末 perp 定价并非噪音，是策略"回归原生锚"假设的官方数据锚定。
+
 ## 合规声明
 
 - 交易腿 100% Bitget Stock Perpetual；BTC 仅作对照/回归，不进组合
 - 信号→执行严格 next-bar，无同 bar 泄漏；无未来函数
 - 品种选择、K 值、全部参数在 60D IS 内冻结；30D OOS 只读配置
 - 统计单位 = 周末组合收益（同周末资产高度相关，不虚增样本）
+- 沙箱回测未建模 funding（本地回测已计入），属已知保守偏差项，已在风险段披露
