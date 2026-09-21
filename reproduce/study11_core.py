@@ -13,7 +13,7 @@ D1 = os.path.join(HERE, 'pair_1m')
 IS_START = pd.Timestamp('2026-06-19', tz='UTC')
 IS_END = pd.Timestamp('2026-08-17', tz='UTC')
 OOS_START = pd.Timestamp('2026-08-18', tz='UTC')
-OOS_END = pd.Timestamp('2026-09-13', tz='UTC')  # last COMPLETE weekend (exit Sun 09-13 21:01)
+OOS_END = pd.Timestamp('2026-09-20', tz='UTC')  # last COMPLETE weekend (exit Sun 09-20 21:01)
 
 _cache = {}
 

@@ -1,0 +1,15 @@
+{
+ "weekends": 9,
+ "trades": null,
+ "total_pct": 2.51,
+ "mean_bp": 27.7,
+ "median_bp": 16.7,
+ "win": 0.667,
+ "sharpe_ann": 3.12,
+ "sortino_ann": 6.3,
+ "maxDD_pct": -0.46,
+ "worst_bp": -40.5,
+ "best_bp": 166.8,
+ "VaR95_bp": -39.1,
+ "CVaR95_bp": -40.5
+}

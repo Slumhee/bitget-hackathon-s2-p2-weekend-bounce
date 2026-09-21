@@ -1,14 +1,14 @@
 {
  "frozen_cfg": {
-  "K": 9,
+  "K": 12,
   "selected": [
    "SPY",
-   "META",
    "NFLX",
-   "AAPL",
-   "HOOD",
+   "META",
    "COIN",
+   "HOOD",
    "TSLA",
+   "AAPL",
    "QQQ",
    "RDDT"
   ],
@@ -19,7 +19,7 @@
   ],
   "oos_window": [
    "2026-08-18",
-   "2026-09-13"
+   "2026-09-20"
   ],
   "entry_rule": "Sat 00:00->12:00 close return < 0 -> long at next bar open (12:01)",
   "exit_rule": "Sun 21:00 bar -> next bar open (21:01) flatten all",
@@ -44,49 +44,49 @@
   "CVaR95_bp": -40.5
  },
  "oos": {
-  "weekends": 4,
+  "weekends": 5,
   "trades": null,
-  "total_pct": 3.04,
-  "mean_bp": 75.2,
-  "median_bp": 66.4,
-  "win": 1.0,
-  "sharpe_ann": 9.01,
-  "sortino_ann": null,
-  "maxDD_pct": 0.0,
-  "worst_bp": 15.2,
+  "total_pct": 2.87,
+  "mean_bp": 56.9,
+  "median_bp": 42.8,
+  "win": 0.8,
+  "sharpe_ann": 6.2,
+  "sortino_ann": 25.42,
+  "maxDD_pct": -0.17,
+  "worst_bp": -16.1,
   "best_bp": 152.6,
-  "VaR95_bp": 19.3,
-  "CVaR95_bp": 15.2
+  "VaR95_bp": -9.9,
+  "CVaR95_bp": -16.1
  },
- "decay_mean": -1.7148014440433217,
+ "decay_mean": -1.0541516245487363,
  "benchmark_A_oos": {
-  "weekends": 4,
+  "weekends": 5,
   "trades": null,
-  "total_pct": 0.33,
-  "mean_bp": 8.6,
-  "median_bp": 56.7,
-  "win": 0.75,
-  "sharpe_ann": 0.63,
-  "sortino_ann": 0.45,
-  "maxDD_pct": -1.42,
-  "worst_bp": -139.1,
-  "best_bp": 60.2,
-  "VaR95_bp": -110.0,
-  "CVaR95_bp": -139.1
+  "total_pct": 0.17,
+  "mean_bp": 3.6,
+  "median_bp": 39.2,
+  "win": 0.6,
+  "sharpe_ann": 0.36,
+  "sortino_ann": 0.32,
+  "maxDD_pct": -1.36,
+  "worst_bp": -114.5,
+  "best_bp": 58.0,
+  "VaR95_bp": -95.4,
+  "CVaR95_bp": -114.5
  },
  "benchmark_C_oos": {
-  "weekends": 4,
+  "weekends": 5,
   "trades": null,
-  "total_pct": 1.45,
-  "mean_bp": 36.3,
-  "median_bp": 28.3,
-  "win": 0.75,
-  "sharpe_ann": 5.29,
-  "sortino_ann": 17.13,
-  "maxDD_pct": -0.16,
-  "worst_bp": -15.3,
+  "total_pct": 1.04,
+  "mean_bp": 20.9,
+  "median_bp": 26.5,
+  "win": 0.6,
+  "sharpe_ann": 2.74,
+  "sortino_ann": 4.9,
+  "maxDD_pct": -0.57,
+  "worst_bp": -40.7,
   "best_bp": 103.6,
-  "VaR95_bp": -9.0,
-  "CVaR95_bp": -15.3
+  "VaR95_bp": -35.6,
+  "CVaR95_bp": -40.7
  }
 }

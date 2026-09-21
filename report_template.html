@@ -41,16 +41,16 @@
 <header>
   <h1>P2 · Weekend Bounce Harvester</h1>
   <div class="sub">Bitget AI Base Camp S2 — Track 1 Alpha Factory · 休市信息定价 / 周末状态策略</div>
-  <div class="badge">60D IS + 30D OOS 全部通过 · STRONG PROMISING</div>
+  <div class="badge">94D 总期 · 60D IS + 34D OOS 全部通过 · STRONG PROMISING</div>
 </header>
 
 <div class="grid">
-  <div class="kpi"><div class="v pos">+__OOS_TOTAL__%</div><div class="l">OOS 30天净收益(复利·12bp成本)</div></div>
-  <div class="kpi"><div class="v pos">+__OOS_MEAN__bp</div><div class="l">OOS 周末均值 · 4/4 全胜</div></div>
+  <div class="kpi"><div class="v pos">+__OOS_TOTAL__%</div><div class="l">OOS 34天净收益(复利·12bp成本)</div></div>
+  <div class="kpi"><div class="v pos">+__OOS_MEAN__bp</div><div class="l">OOS 周末均值 · 4/5 胜</div></div>
   <div class="kpi"><div class="v pos">__OOS_SHARPE__</div><div class="l">OOS Sharpe (年化)</div></div>
-  <div class="kpi"><div class="v pos">0.0%</div><div class="l">OOS Max Drawdown</div></div>
-  <div class="kpi"><div class="v warn">0.48</div><div class="l">BTC Beta (OOS 回归)</div></div>
-  <div class="kpi"><div class="v pos">+57.7bp</div><div class="l">OOS 残差 Alpha /周末</div></div>
+  <div class="kpi"><div class="v pos">-0.17%</div><div class="l">OOS Max Drawdown</div></div>
+  <div class="kpi"><div class="v warn">0.76</div><div class="l">BTC Beta (OOS 回归)</div></div>
+  <div class="kpi"><div class="v pos">+41.1bp</div><div class="l">OOS 残差 Alpha /周末</div></div>
 </div>
 
 <section>
@@ -79,14 +79,14 @@
 </section>
 
 <section>
-  <h2>3 · Equity Curve — 60D IS / 30D OOS</h2>
-  <div class="note">蓝 = IS（06-19→08-17 · 9 周末）｜绿 = OOS（08-18→09-13 · 4 周末 · 冻结后零改动）｜净 12bp 成本复利</div>
+  <h2>3 · Equity Curve — 94D 总期 / 60D IS + 34D OOS</h2>
+  <div class="note">蓝 = IS（06-19→08-17 · 9 周末）｜绿 = OOS（08-18→09-20 · 5 周末 · 冻结后零改动）｜净 12bp 成本复利</div>
   <div class="card"><div class="chartbox"><canvas id="cEquity"></canvas></div></div>
 </section>
 
 <section>
   <h2>4 · 每周末收益分布</h2>
-  <div class="note">统计单位 = 周末组合收益（同周末多资产高度相关，不虚增样本量）。13 个周末 11 胜，最差周末 -40.5bp（IS），OOS 最差 +15.2bp。</div>
+  <div class="note">统计单位 = 周末组合收益（同周末多资产高度相关，不虚增样本量）。14 个周末 11 胜（IS 6/9 · OOS 4/5），最差周末 -40.5bp（IS），OOS 最差 -16.1bp（2026-09-19/20，首个 OOS 亏损周末，如实入账）。</div>
   <div class="card"><div class="chartbox"><canvas id="cWeek"></canvas></div></div>
 </section>
 
@@ -107,13 +107,13 @@
 
 <section>
   <h2>6 · 交易事件：入场跌幅 vs 净收益</h2>
-  <div class="note">37 笔交易（IS 19 + OOS 18 剔除未触发周）。跌幅越深 → 反弹收益越大的单调关系即机制本身的可视化。</div>
+  <div class="note">51 笔交易（IS 33 + OOS 18，剔除未触发周）。跌幅越深 → 反弹收益越大的单调关系即机制本身的可视化。</div>
   <div class="card"><div class="chartbox tall"><canvas id="cScatter"></canvas></div></div>
 </section>
 
 <section>
   <h2>7 · 成本压力曲线</h2>
-  <div class="note">4→18bp 全档为正、全档 4/4 胜。break-even ≈ 87bp RT，为现实成本的 7 倍。</div>
+  <div class="note">4→18bp 全档为正。break-even ≈ 87bp RT，为现实成本的 7 倍。</div>
   <div class="card"><div class="chartbox"><canvas id="cCost"></canvas></div></div>
 </section>
 
@@ -145,7 +145,7 @@ Chart.defaults.borderColor = '#1f2a4a';
 new Chart(document.getElementById('cEquity'), {
   type:'line', data:{labels:__EQ_LABELS__, datasets:[
     {label:'IS equity (60d)', data:__EQ_IS__, borderColor:'#3b82f6', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false},
-    {label:'OOS equity (30d)', data:__EQ_OOS__, borderColor:'#10b981', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false}
+    {label:'OOS equity (34d)', data:__EQ_OOS__, borderColor:'#10b981', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false}
   ]},
   options:{plugins:{legend:{labels:{color:'#e6eaf5'}}}, scales:{y:{title:{display:true,text:'Equity (start=1)'}}}}
 });

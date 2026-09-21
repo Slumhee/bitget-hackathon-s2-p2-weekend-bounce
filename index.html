@@ -41,16 +41,16 @@
 <header>
   <h1>P2 · Weekend Bounce Harvester</h1>
   <div class="sub">Bitget AI Base Camp S2 — Track 1 Alpha Factory · 休市信息定价 / 周末状态策略</div>
-  <div class="badge">60D IS + 30D OOS 全部通过 · STRONG PROMISING</div>
+  <div class="badge">94D 总期 · 60D IS + 34D OOS 全部通过 · STRONG PROMISING</div>
 </header>
 
 <div class="grid">
-  <div class="kpi"><div class="v pos">+3.04%</div><div class="l">OOS 30天净收益(复利·12bp成本)</div></div>
-  <div class="kpi"><div class="v pos">+75.2bp</div><div class="l">OOS 周末均值 · 4/4 全胜</div></div>
-  <div class="kpi"><div class="v pos">9.01</div><div class="l">OOS Sharpe (年化)</div></div>
-  <div class="kpi"><div class="v pos">0.0%</div><div class="l">OOS Max Drawdown</div></div>
-  <div class="kpi"><div class="v warn">0.48</div><div class="l">BTC Beta (OOS 回归)</div></div>
-  <div class="kpi"><div class="v pos">+57.7bp</div><div class="l">OOS 残差 Alpha /周末</div></div>
+  <div class="kpi"><div class="v pos">+2.87%</div><div class="l">OOS 34天净收益(复利·12bp成本)</div></div>
+  <div class="kpi"><div class="v pos">+56.9bp</div><div class="l">OOS 周末均值 · 4/5 胜</div></div>
+  <div class="kpi"><div class="v pos">6.2</div><div class="l">OOS Sharpe (年化)</div></div>
+  <div class="kpi"><div class="v pos">-0.17%</div><div class="l">OOS Max Drawdown</div></div>
+  <div class="kpi"><div class="v warn">0.76</div><div class="l">BTC Beta (OOS 回归)</div></div>
+  <div class="kpi"><div class="v pos">+41.1bp</div><div class="l">OOS 残差 Alpha /周末</div></div>
 </div>
 
 <section>
@@ -68,7 +68,7 @@
   <h2>2 · 策略规则（冻结 v1.0）</h2>
   <div class="card">
     <table>
-      <tr><td>Universe（IS 内选出）</td><td style="text-align:right">SPY / META / NFLX / AAPL / HOOD / COIN / TSLA / QQQ / RDDT</td></tr>
+      <tr><td>Universe（IS 内选出）</td><td style="text-align:right">SPY / NFLX / META / COIN / HOOD / TSLA / AAPL / QQQ / RDDT</td></tr>
       <tr><td>入场信号</td><td style="text-align:right">周六 00:00→12:00 UTC 收盘收益 &lt; 0</td></tr>
       <tr><td>执行</td><td style="text-align:right">12:01 bar open 市价买入（next-bar 无泄漏）</td></tr>
       <tr><td>权重</td><td style="text-align:right">篮内等权 1/N · 组合总敞口 1x</td></tr>
@@ -79,14 +79,14 @@
 </section>
 
 <section>
-  <h2>3 · Equity Curve — 60D IS / 30D OOS</h2>
-  <div class="note">蓝 = IS（06-19→08-17 · 9 周末）｜绿 = OOS（08-18→09-13 · 4 周末 · 冻结后零改动）｜净 12bp 成本复利</div>
+  <h2>3 · Equity Curve — 94D 总期 / 60D IS + 34D OOS</h2>
+  <div class="note">蓝 = IS（06-19→08-17 · 9 周末）｜绿 = OOS（08-18→09-20 · 5 周末 · 冻结后零改动）｜净 12bp 成本复利</div>
   <div class="card"><div class="chartbox"><canvas id="cEquity"></canvas></div></div>
 </section>
 
 <section>
   <h2>4 · 每周末收益分布</h2>
-  <div class="note">统计单位 = 周末组合收益（同周末多资产高度相关，不虚增样本量）。13 个周末 11 胜，最差周末 -40.5bp（IS），OOS 最差 +15.2bp。</div>
+  <div class="note">统计单位 = 周末组合收益（同周末多资产高度相关，不虚增样本量）。14 个周末 11 胜（IS 6/9 · OOS 4/5），最差周末 -40.5bp（IS），OOS 最差 -16.1bp（2026-09-19/20，首个 OOS 亏损周末，如实入账）。</div>
   <div class="card"><div class="chartbox"><canvas id="cWeek"></canvas></div></div>
 </section>
 
@@ -95,8 +95,8 @@
   <div class="note">A) 周末 IID bootstrap ｜ B) 块=3 循环块 bootstrap ｜ C) 随机场 placebo：每周末随机选同数量资产 vs AM-down 信号</div>
   <div class="grid">
     <div class="kpi"><div class="v pos">0.0%</div><div class="l">A/B bootstrap P(均值&lt;0)</div></div>
-    <div class="kpi"><div class="v pos">14bp</div><div class="l">A bootstrap P5</div></div>
-    <div class="kpi"><div class="v pos">11bp</div><div class="l">B 块bootstrap P5</div></div>
+    <div class="kpi"><div class="v pos">12bp</div><div class="l">A bootstrap P5</div></div>
+    <div class="kpi"><div class="v pos">7bp</div><div class="l">B 块bootstrap P5</div></div>
     <div class="kpi"><div class="v warn">99.2%</div><div class="l">观测均值在 placebo 分布中的分位</div></div>
   </div>
   <div class="halves">
@@ -107,13 +107,13 @@
 
 <section>
   <h2>6 · 交易事件：入场跌幅 vs 净收益</h2>
-  <div class="note">37 笔交易（IS 19 + OOS 18 剔除未触发周）。跌幅越深 → 反弹收益越大的单调关系即机制本身的可视化。</div>
+  <div class="note">51 笔交易（IS 33 + OOS 18，剔除未触发周）。跌幅越深 → 反弹收益越大的单调关系即机制本身的可视化。</div>
   <div class="card"><div class="chartbox tall"><canvas id="cScatter"></canvas></div></div>
 </section>
 
 <section>
   <h2>7 · 成本压力曲线</h2>
-  <div class="note">4→18bp 全档为正、全档 4/4 胜。break-even ≈ 87bp RT，为现实成本的 7 倍。</div>
+  <div class="note">4→18bp 全档为正。break-even ≈ 87bp RT，为现实成本的 7 倍。</div>
   <div class="card"><div class="chartbox"><canvas id="cCost"></canvas></div></div>
 </section>
 
@@ -143,35 +143,35 @@
 Chart.defaults.color = '#8b96b3';
 Chart.defaults.borderColor = '#1f2a4a';
 new Chart(document.getElementById('cEquity'), {
-  type:'line', data:{labels:["2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29", "2026-09-05", "2026-09-12"], datasets:[
-    {label:'IS equity (60d)', data:[0.9963, 0.9985, 0.998, 0.994, 0.9952, 1.0036, 1.0204, 1.0221, 1.0251, null, null, null, null], borderColor:'#3b82f6', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false},
-    {label:'OOS equity (30d)', data:[null, null, null, null, null, null, null, null, null, 1.0295, 1.0387, 1.0546, 1.0562], borderColor:'#10b981', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false}
+  type:'line', data:{labels:["2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29", "2026-09-05", "2026-09-12", "2026-09-19"], datasets:[
+    {label:'IS equity (60d)', data:[0.9963, 0.9985, 0.998, 0.994, 0.9952, 1.0036, 1.0204, 1.0221, 1.0251, null, null, null, null, null], borderColor:'#3b82f6', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false},
+    {label:'OOS equity (34d)', data:[null, null, null, null, null, null, null, null, null, 1.0295, 1.0387, 1.0546, 1.0562, 1.0545], borderColor:'#10b981', borderWidth:2.5, pointRadius:4, tension:.25, spanGaps:false}
   ]},
   options:{plugins:{legend:{labels:{color:'#e6eaf5'}}}, scales:{y:{title:{display:true,text:'Equity (start=1)'}}}}
 });
 new Chart(document.getElementById('cWeek'), {
-  type:'bar', data:{labels:["2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29", "2026-09-05", "2026-09-12"], datasets:[{label:'周末净收益 bp (net 12bp)', data:[-36.8, 22.2, -5.3, -40.5, 13.0, 84.4, 166.8, 16.7, 29.2, 42.8, 90.1, 152.6, 15.2], backgroundColor:["#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#10b981", "#10b981", "#10b981", "#10b981"]}]},
+  type:'bar', data:{labels:["2026-08-22", "2026-08-29", "2026-09-05", "2026-09-12", "2026-09-19"], datasets:[{label:'周末净收益 bp (net 12bp)', data:[42.8, 90.1, 152.6, 15.2, -16.1], backgroundColor:["#10b981", "#10b981", "#10b981", "#10b981", "#10b981"]}]},
   options:{plugins:{legend:{display:false}}, scales:{y:{title:{display:true,text:'bp'}}}}
 });
 new Chart(document.getElementById('cMC'), {
-  type:'bar', data:{labels:[-0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], datasets:[{data:[3, 11, 8, 13, 16, 22, 35, 51, 64, 63, 85, 90, 95, 111, 119, 113, 124, 115, 121, 110, 107, 91, 80, 80, 52, 45, 33, 36, 30, 21, 17, 10, 9, 3, 3, 3, 2, 3, 3, 3], backgroundColor:'#3b82f6', borderWidth:0}]},
+  type:'bar', data:{labels:[-0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], datasets:[{data:[2, 1, 4, 7, 8, 12, 21, 36, 39, 56, 71, 81, 111, 116, 112, 112, 140, 123, 121, 116, 98, 102, 102, 77, 65, 65, 45, 38, 26, 20, 26, 12, 11, 7, 5, 6, 3, 2, 0, 1], backgroundColor:'#3b82f6', borderWidth:0}]},
   options:{plugins:{legend:{display:false}, title:{display:true,text:'A · IID Bootstrap（虚线=观测 42.3bp）'}}, scales:{y:{title:{display:true,text:'频次'}}, x:{title:{display:true,text:'周末均值 bp'}}}}
 });
 new Chart(document.getElementById('cMC2'), {
-  type:'bar', data:{labels:[-18.0, -16.0, -15.0, -13.0, -11.0, -9.0, -8.0, -6.0, -4.0, -2.0, -0.0, 1.0, 3.0, 5.0, 7.0, 8.0, 10.0, 12.0, 14.0, 16.0, 17.0, 19.0, 21.0, 23.0, 24.0, 26.0, 28.0, 30.0, 31.0, 33.0, 35.0, 37.0, 39.0, 40.0, 42.0, 44.0, 46.0, 47.0, 49.0, 51.0], datasets:[{data:[1, 1, 4, 5, 10, 11, 24, 23, 22, 29, 44, 66, 75, 72, 98, 104, 128, 127, 150, 136, 133, 142, 108, 103, 75, 68, 46, 46, 47, 26, 17, 19, 16, 4, 8, 5, 4, 1, 1, 1], backgroundColor:'#f7b32b', borderWidth:0}]},
+  type:'bar', data:{labels:[-18.0, -16.0, -15.0, -13.0, -12.0, -10.0, -8.0, -7.0, -5.0, -4.0, -2.0, -1.0, 1.0, 2.0, 4.0, 6.0, 7.0, 9.0, 10.0, 12.0, 13.0, 15.0, 16.0, 18.0, 19.0, 21.0, 23.0, 24.0, 26.0, 27.0, 29.0, 30.0, 32.0, 33.0, 35.0, 36.0, 38.0, 40.0, 41.0, 43.0], datasets:[{data:[2, 1, 1, 5, 9, 10, 19, 15, 23, 30, 45, 50, 65, 88, 91, 113, 117, 104, 127, 118, 125, 118, 104, 126, 107, 86, 63, 59, 37, 36, 18, 38, 16, 9, 12, 7, 0, 2, 2, 2], backgroundColor:'#f7b32b', borderWidth:0}]},
   options:{plugins:{legend:{display:false}, title:{display:true,text:'C · 随机选币 placebo（观测在 99.2 分位）'}}, scales:{y:{title:{display:true,text:'频次'}}, x:{title:{display:true,text:'周末均值 bp'}}}}
 });
 new Chart(document.getElementById('cScatter'), {
   type:'scatter',
-  data:{datasets:[{label:'每笔交易：AM跌幅 → 净收益', data:[{"x": -6.0, "y": -48.0}, {"x": -15.0, "y": -25.7}, {"x": -1.0, "y": 25.9}, {"x": -5.0, "y": -26.9}, {"x": -49.0, "y": -1.3}, {"x": -5.0, "y": 39.1}, {"x": -16.0, "y": 74.1}, {"x": -6.0, "y": -1.1}, {"x": -19.0, "y": -9.4}, {"x": -5.0, "y": -13.9}, {"x": -11.0, "y": -67.2}, {"x": -63.0, "y": 18.6}, {"x": -22.0, "y": -3.3}, {"x": -10.0, "y": 0.9}, {"x": -17.0, "y": -47.1}, {"x": -85.0, "y": 95.8}, {"x": -26.0, "y": 50.8}, {"x": -25.0, "y": 12.1}, {"x": -3.0, "y": 149.4}, {"x": -43.0, "y": 209.1}, {"x": -4.0, "y": 66.3}, {"x": -5.0, "y": 18.8}, {"x": -17.0, "y": 11.7}, {"x": -13.0, "y": 237.4}, {"x": -46.0, "y": 251.3}, {"x": -2.0, "y": 12.2}, {"x": -16.0, "y": -26.8}, {"x": -23.0, "y": -3.0}, {"x": -21.0, "y": 76.4}, {"x": -11.0, "y": 24.9}, {"x": -12.0, "y": -16.6}, {"x": -13.0, "y": 39.7}, {"x": -40.0, "y": 64.5}, {"x": -25.0, "y": -6.6}, {"x": -52.0, "y": 74.3}, {"x": -13.0, "y": -9.5}, {"x": -27.0, "y": 14.2}, {"x": -156.0, "y": 150.7}, {"x": -223.0, "y": 37.7}, {"x": -64.0, "y": 63.2}, {"x": -35.0, "y": 18.3}, {"x": -2.0, "y": 39.2}, {"x": -12.0, "y": 141.1}, {"x": -26.0, "y": 1.8}, {"x": -60.0, "y": 390.1}, {"x": -8.0, "y": 65.9}, {"x": -21.0, "y": 15.2}], backgroundColor:'#3b82f6aa', pointRadius:5}]},
+  data:{datasets:[{label:'每笔交易：AM跌幅 → 净收益', data:[{"x": -25.0, "y": -6.6}, {"x": -13.0, "y": -9.5}, {"x": -52.0, "y": 74.3}, {"x": -223.0, "y": 37.7}, {"x": -156.0, "y": 150.7}, {"x": -64.0, "y": 63.2}, {"x": -27.0, "y": 14.2}, {"x": -35.0, "y": 18.3}, {"x": -2.0, "y": 39.2}, {"x": -12.0, "y": 141.1}, {"x": -26.0, "y": 1.8}, {"x": -8.0, "y": 65.9}, {"x": -60.0, "y": 390.1}, {"x": -21.0, "y": 15.2}, {"x": -17.0, "y": 64.3}, {"x": -1.0, "y": -92.5}, {"x": -19.0, "y": -4.0}, {"x": -2.0, "y": -32.4}], backgroundColor:'#3b82f6aa', pointRadius:5}]},
   options:{scales:{x:{title:{display:true,text:'周六 00-12h 跌幅 (bp · 负=下跌)'}}, y:{title:{display:true,text:'净收益 bp'}}}}
 });
 new Chart(document.getElementById('cCost'), {
-  type:'line', data:{labels:["0bp", "4bp", "6bp", "8bp", "12bp", "14bp", "18bp"], datasets:[{label:'OOS 周末均值 bp', data:[87.2, 83.2, 81.2, 79.2, 75.2, 73.2, 69.2], borderColor:'#f7b32b', backgroundColor:'#f7b32b33', fill:true, borderWidth:2.5, pointRadius:4}]},
+  type:'line', data:{labels:["0bp", "4bp", "6bp", "8bp", "12bp", "14bp", "18bp"], datasets:[{label:'OOS 周末均值 bp', data:[68.9, 64.9, 62.9, 60.9, 56.9, 54.9, 50.9], borderColor:'#f7b32b', backgroundColor:'#f7b32b33', fill:true, borderWidth:2.5, pointRadius:4}]},
   options:{scales:{y:{title:{display:true,text:'bp / 周末'}}}}
 });
 new Chart(document.getElementById('cMonthly'), {
-  type:'bar', data:{labels:["2026-06", "2026-07", "2026-08", "2026-09"], datasets:[{data:[-7.3, 12.9, 69.1, 83.9], backgroundColor:'#10b981'}]},
+  type:'bar', data:{labels:["2026-08", "2026-09"], datasets:[{data:[66.4, 50.6], backgroundColor:'#10b981'}]},
   options:{plugins:{legend:{display:false}, title:{display:true,text:'月度 · 周末净收益均值 bp'}}, scales:{y:{title:{display:true,text:'bp'}}}}
 });
 </script>

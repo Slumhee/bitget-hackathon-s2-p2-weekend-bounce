@@ -1,7 +1,7 @@
 # P2 Weekend Bounce Harvester
 
 > Bitget AI Base Camp Hackathon S2 · Track 1 Alpha Factory · 子主题：休市信息定价
-> Bitget 官方生态：GetAgent Playbook（已发布 v0.2.1）+ bitget-mcp-server 数据层 + bitget-signal 感知层
+> Bitget 官方生态：GetAgent Playbook（已发布 v0.2.2）+ bitget-mcp-server 数据层 + bitget-signal 感知层
 
 回测展示页面（可复现）：[GitHub Pages](https://slumhee.github.io/bitget-hackathon-s2-p2-weekend-bounce/)
 
@@ -26,16 +26,19 @@
 
 **双引擎验证，指标互相印证：**
 
-| 指标 | GetAgent 沙箱回测（1h bar · 90d） | 本地冻结回测（1m bar · 60D IS + 30D OOS） |
+| 指标 | GetAgent 沙箱回测（1h bar · 94d · v0.2.2） | 本地冻结回测（1m bar · 60D IS + 34D OOS） |
 |---|---|---|
-| 总收益 | +2.26% | OOS 30 天复利 +3.04% |
-| Sharpe（年化） | 3.63 | 3.12 IS / 9.01 OOS |
+| 总收益 | +2.27% | OOS 34 天复利 +2.87% |
+| Sharpe（年化） | 3.50 | 3.12 IS / 6.2 OOS |
 | Sortino（年化） | 32.31 | — |
-| 最大回撤 | -0.43% | -0.46% |
-| 胜率（持仓级） | 75.6% | 66.7% IS / 100% OOS（周末级 4/4） |
-| 交易次数 | 167 fills / 46 round trips | 37 trades |
+| 最大回撤 | -0.43% | -0.46% IS / -0.17% OOS |
+| 胜率（周末级） | 75.6%（持仓级） | 66.7% IS / 80% OOS（周末级 4/5） |
+| 交易次数 | 178 fills / 46+ round trips | 51 trades（IS 33 + OOS 18） |
+| 换手率 | — | 平均每周末 0.8x 双边名义（3.6/9 名字触发，持有 ~33h） |
+| 滚动 30d Sharpe | — | 末段稳定 6.6-10.2（IS 早期 warm-up 窗口为负） |
 
-- 蒙特卡洛 2000 次：bootstrap P(负)=0；随机场 placebo 位于 99.2 分位
+- 蒙特卡洛 2000 次：bootstrap P(负)=0；随机场 placebo 位于 99.7 分位
+- OOS 含 2026-09-19/20 首个亏损周末（-16.1bp，HOOD 拖累），如实入账；该周末信号由 paper trader 提前生成、回测入场价与实时日志逐笔一致
 - 成本压力 4→18bp RT 全档为正；break-even ≈ 87bp（现实成本的 7 倍）
 - BTC beta 0.48，残差 alpha +57.7bp/周末——一半 crypto beta、一半纯股票永续 alpha
 - 沙箱按真实费率计费（maker 2bp / taker 6bp），funding 在本地回测逐笔计入

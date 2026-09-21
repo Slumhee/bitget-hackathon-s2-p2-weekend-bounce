@@ -1,13 +1,13 @@
 {
- "K": 9,
+ "K": 12,
  "selected": [
   "SPY",
-  "META",
   "NFLX",
-  "AAPL",
-  "HOOD",
+  "META",
   "COIN",
+  "HOOD",
   "TSLA",
+  "AAPL",
   "QQQ",
   "RDDT"
  ],
@@ -18,7 +18,7 @@
  ],
  "oos_window": [
   "2026-08-18",
-  "2026-09-13"
+  "2026-09-20"
  ],
  "entry_rule": "Sat 00:00->12:00 close return < 0 -> long at next bar open (12:01)",
  "exit_rule": "Sun 21:00 bar -> next bar open (21:01) flatten all",

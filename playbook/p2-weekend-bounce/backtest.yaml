@@ -147,5 +147,5 @@ instruments:
 execution:
   start: "2026-06-19"
   start_filter_timezone: "UTC"
-  end: "2026-09-13"
+  end: "2026-09-20"
   end_filter_timezone: "UTC"

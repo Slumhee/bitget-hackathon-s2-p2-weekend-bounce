@@ -1,0 +1,92 @@
+{
+ "frozen_cfg": {
+  "K": 12,
+  "selected": [
+   "SPY",
+   "NFLX",
+   "META",
+   "COIN",
+   "HOOD",
+   "TSLA",
+   "AAPL",
+   "QQQ",
+   "RDDT"
+  ],
+  "dev_end": "2026-07-29 00:00:00+00:00",
+  "is_window": [
+   "2026-06-19",
+   "2026-08-17"
+  ],
+  "oos_window": [
+   "2026-08-18",
+   "2026-09-20"
+  ],
+  "entry_rule": "Sat 00:00->12:00 close return < 0 -> long at next bar open (12:01)",
+  "exit_rule": "Sun 21:00 bar -> next bar open (21:01) flatten all",
+  "sizing": "equal weight 1/N, gross=1x",
+  "cost_rt_bp": 12.0,
+  "entry_h": 12,
+  "exit_h": 21
+ },
+ "is": {
+  "weekends": 9,
+  "trades": null,
+  "total_pct": 2.51,
+  "mean_bp": 27.7,
+  "median_bp": 16.7,
+  "win": 0.667,
+  "sharpe_ann": 3.12,
+  "sortino_ann": 6.3,
+  "maxDD_pct": -0.46,
+  "worst_bp": -40.5,
+  "best_bp": 166.8,
+  "VaR95_bp": -39.1,
+  "CVaR95_bp": -40.5
+ },
+ "oos": {
+  "weekends": 5,
+  "trades": null,
+  "total_pct": 2.87,
+  "mean_bp": 56.9,
+  "median_bp": 42.8,
+  "win": 0.8,
+  "sharpe_ann": 6.2,
+  "sortino_ann": 25.42,
+  "maxDD_pct": -0.17,
+  "worst_bp": -16.1,
+  "best_bp": 152.6,
+  "VaR95_bp": -9.9,
+  "CVaR95_bp": -16.1
+ },
+ "decay_mean": -1.0541516245487363,
+ "benchmark_A_oos": {
+  "weekends": 5,
+  "trades": null,
+  "total_pct": 0.17,
+  "mean_bp": 3.6,
+  "median_bp": 39.2,
+  "win": 0.6,
+  "sharpe_ann": 0.36,
+  "sortino_ann": 0.32,
+  "maxDD_pct": -1.36,
+  "worst_bp": -114.5,
+  "best_bp": 58.0,
+  "VaR95_bp": -95.4,
+  "CVaR95_bp": -114.5
+ },
+ "benchmark_C_oos": {
+  "weekends": 5,
+  "trades": null,
+  "total_pct": 1.04,
+  "mean_bp": 20.9,
+  "median_bp": 26.5,
+  "win": 0.6,
+  "sharpe_ann": 2.74,
+  "sortino_ann": 4.9,
+  "maxDD_pct": -0.57,
+  "worst_bp": -40.7,
+  "best_bp": 103.6,
+  "VaR95_bp": -35.6,
+  "CVaR95_bp": -40.7
+ }
+}
