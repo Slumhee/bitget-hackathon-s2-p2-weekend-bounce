@@ -16,7 +16,7 @@
   Paper Trading 已开启，每个周六 12:00 UTC 自动运行并留运行日志（比赛要求的 paper 证据）
 - **Bitget Playbook 市场卡片**：<https://www.bitget.com/zh-CN/activity/ai-get-agent/playbook?clacCode=S1UPL1EU>
   （进入后于「我创建的」/ 合约策略分区查看 "P2 Weekend Bounce Harvester"）
-- **回测报告（GitHub Pages 入口）**：打开本仓库 `index.html`
+- **回测报告（GitHub Pages）**：<https://slumhee.github.io/bitget-hackathon-s2-p2-weekend-bounce/>
 
 ![GetAgent Studio 分享卡](docs/studio-card.png)
 
@@ -71,7 +71,7 @@ p2-weekend-bounce/
 
 ```bash
 cd reproduce
-bash run_all.sh        # 约 5-10 分钟，重新生成全部本地结果
+bash run_all.sh        # 约 5-10 分钟，即可重新生成全部结果
 ```
 
 依赖：Python 3.10+，pandas，numpy。无需 API key（原始数据已随包附带）。
