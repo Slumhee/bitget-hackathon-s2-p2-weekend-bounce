@@ -3,6 +3,8 @@
 > Bitget AI Base Camp Hackathon S2 · Track 1 Alpha Factory · 子主题：休市信息定价
 > Bitget 官方生态：GetAgent Playbook（已发布 v0.2.1）+ bitget-mcp-server 数据层 + bitget-signal 感知层
 
+回测展示页面（可复现）：[GitHub Pages](https://slumhee.github.io/bitget-hackathon-s2-p2-weekend-bounce/)
+
 当美股闭市、定价权交给 crypto 交易者时，周六早盘的下跌是"无信息超调"。
 本策略在周六正午买入早盘下跌的 Stock Perpetual、周日晚间平仓，收割超调回归。
 
