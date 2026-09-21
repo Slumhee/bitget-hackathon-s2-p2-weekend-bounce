@@ -4,3 +4,4 @@ __pycache__/
 reproduce/*.log
 live/cache/
 live/logs/
+playbook/*.tar.gz
