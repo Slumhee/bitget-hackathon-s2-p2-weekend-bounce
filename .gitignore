@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 reproduce/*.log
 live/cache/
-live/logs/
+live/logs/*
+!live/logs/paper_2026-09-19.jsonl
 playbook/*.tar.gz
