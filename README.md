@@ -1,6 +1,6 @@
 # P2 Weekend Bounce Harvester
 
-> Bitget AI Base Camp Hackathon S2 · Track 1 Alpha Factory · 子主题：休市信息定价
+> Bitget AI Base Camp Hackathon S2 · Track 1 Alpha Factory · 子主题：rToken 因子策略（休市窗口均值回归）
 > Bitget 官方生态：GetAgent Playbook（已发布 v0.2.2）+ bitget-mcp-server 数据层 + bitget-signal 感知层
 
 回测展示页面（可复现）：[GitHub Pages](https://slumhee.github.io/bitget-hackathon-s2-p2-weekend-bounce/)
