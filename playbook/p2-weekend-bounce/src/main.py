@@ -134,12 +134,25 @@ def _weekend_morning_return(sym: str) -> Decimal | None:
         return None
     ref_a = None
     ref_b = None
+    from datetime import datetime, timezone
     for row in rows:
+        # SDK returns `time` (ms epoch) and/or `date` (ISO string) depending on source
         ts = row.get("time")
-        if ts is None:
-            continue
-        from datetime import datetime, timezone
-        dt = datetime.fromtimestamp(int(ts) / 1000, tz=timezone.utc)
+        if ts is not None:
+            try:
+                dt = datetime.fromtimestamp(int(ts) / 1000, tz=timezone.utc)
+            except (TypeError, ValueError):
+                continue
+        else:
+            ds = row.get("date")
+            if not ds:
+                continue
+            try:
+                dt = datetime.fromisoformat(str(ds).replace("Z", "+00:00"))
+            except (TypeError, ValueError):
+                continue
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
         # Sat 00:00 close == bar opened Fri 23:00 (last bar before Sat 00:00)
         if dt.weekday() == 4 and dt.hour == 23:
             ref_a = Decimal(str(row["close"]))
