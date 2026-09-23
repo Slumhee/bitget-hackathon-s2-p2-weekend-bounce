@@ -12,7 +12,7 @@
 
 ## 🎮 在线体验（Live Demo）
 
-- **GetAgent Studio 策略页**：<https://getagent.studio/strategy/34e94ee4-f84c-4b80-b324-2318bfaf0bf6>
+- **GetAgent Studio 策略页**：<https://getagent.studio/strategy/ae67bdd5-421e-452e-889a-2ea11dea5d8f>
   Paper Trading 已开启，每个周六 12:00 UTC 自动运行并留运行日志（比赛要求的 paper 证据）
 - **Bitget Playbook 市场卡片**：<https://www.bitget.com/zh-CN/activity/ai-get-agent/playbook?clacCode=S1UPL1EU>
   （进入后于「我创建的」/ 合约策略分区查看 "P2 Weekend Bounce Harvester"）
@@ -51,7 +51,7 @@ p2-weekend-bounce/
 ├── README.md               ← 本文件
 ├── build_html.py           ← 报告生成脚本
 ├── report_template.html    ← 报告模板
-├── playbook/               ← Bitget 官方 GetAgent Playbook 包（已发布 v0.2.1）
+├── playbook/               ← Bitget 官方 GetAgent Playbook 包（已发布 v0.2.4）
 │   └── p2-weekend-bounce/
 │       ├── manifest.yaml   ← 双语 manifest（trade_strategy / follow_trade）
 │       ├── backtest.yaml   ← 9 instrument · 真实费率 · Nautilus 回放规格
@@ -93,7 +93,7 @@ Playbook 沙箱回测结果存于 `live/data/playbook_run_result.json`（run `pb
 
 | 层 | 官方工具 | 本仓库落点 | 状态 |
 |---|---|---|---|
-| 主路径 | GetAgent Skill + Playbook + Studio | `playbook/` → 已发布 v0.2.1，Paper Trading 已开 | ✅ 运行中 |
+| 主路径 | GetAgent Skill + Playbook + Studio | `playbook/` → 已发布 v0.2.4，Paper Trading 已开 | ✅ 运行中 |
 | 数据层 | bitget-mcp-server（美股/ETF 行情与基本面） | `live/mcp_data.py` + `live/data/weekend_premium.csv` | ✅ 实测打通 |
 | 感知层 | bitget-signal（跨 crypto 宏观/情绪/技术面） | `live/bitget_signal.py`，接入 paper trader 盯市 | ✅ 实测打通 |
 
