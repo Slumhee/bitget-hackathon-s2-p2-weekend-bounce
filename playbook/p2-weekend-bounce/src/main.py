@@ -39,6 +39,23 @@ def _fetch_1h(symbol: str, days: int = 90) -> list[dict]:
 
     now = datetime.now(timezone.utc)
     all_rows: dict = {}
+
+    def _ts_ms(row) -> int | None:
+        """Bar open time as epoch ms; accepts `time` (ms) or `date` (ISO)."""
+        ts = row.get("time")
+        if ts is not None and str(ts).isdigit():
+            return int(ts)
+        ds = row.get("date")
+        if ds:
+            try:
+                dt = datetime.fromisoformat(str(ds).replace("Z", "+00:00"))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return int(dt.timestamp() * 1000)
+            except (TypeError, ValueError):
+                return None
+        return None
+
     end_time = int(now.timestamp() * 1000)  # endpoint rejects None
     floor = int((now - timedelta(days=days)).timestamp() * 1000)
     for _page in range(6):  # 90d of 1h bars needs ~3 pages; cap at 6
@@ -53,24 +70,18 @@ def _fetch_1h(symbol: str, days: int = 90) -> list[dict]:
         rows = data.to_records(bars)
         if not rows:
             break
-        for row in rows:
-            ts = row.get("time") or row.get("date")
-            if ts is None:
-                continue
-            key = int(ts) if str(ts).isdigit() else ts
-            all_rows[key] = row
         oldest = None
         for row in rows:
-            ts = row.get("time") or row.get("date")
+            ts = _ts_ms(row)
             if ts is None:
                 continue
-            v = int(ts) if str(ts).isdigit() else None
-            if v is not None and (oldest is None or v < oldest):
-                oldest = v
+            all_rows[ts] = row
+            if oldest is None or ts < oldest:
+                oldest = ts
         if oldest is None or oldest <= floor:
             break
         end_time = oldest - 1
-    return [all_rows[k] for k in sorted(all_rows, key=lambda x: str(x))]
+    return [all_rows[k] for k in sorted(all_rows)]
 
 
 def _run_historical() -> None:
