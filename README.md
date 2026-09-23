@@ -70,6 +70,20 @@ p2-weekend-bounce/
 └── tech/                   ← 技术层：架构 / 成本压力 / LOO 稳健性报告
 ```
 
+## 比赛合规（Bitget AI Base Camp Hackathon S2）
+
+| 要求 | 状态 | 说明 |
+|---|---|---|
+| 赛道 | ✅ Alpha Factory（量化策略） | 子主题：rToken 因子策略（休市窗口均值回归） |
+| 回测记录 | ✅ 总期 94 天（2026-06-19→09-20），样本外 34 天（08-18→09-20） | 满足 ≥60d / ≥30d 要求 |
+| 策略代码 | ✅ `playbook/p2-weekend-bounce/` + 仓库全部脚本 | GitHub 公开可访问 |
+| 大模型作用 | ✅ 策略开发辅助（代码生成、参数探索、文档撰写） | 模型：Claude + Qwen（开发环境），非运行时依赖 |
+| X 传播帖 | ⚠️ 待发布 | 须含 `#BitgetHackathon` + `@Bitget_AI` + 转发官方帖 |
+| Paper Trading | ✅ Studio 已启动，每周六 12:00 UTC 自动运行 | 持续累积赛期 paper 证据 |
+| 目标用户 | Retail 散户，资金 ≤$50k，低频（每周 1-2 次），美股合约市场，偏好被动持有 weekend 窗口而非日内盯盘 | 非「所有 trader」 |
+
+**诚实披露：** 样本外 Sharpe 6.2 > IS Sharpe 3.12（OS/IS = 1.98，无衰减预警）。首亏周末 09-19–20 -16.1bp 如实记录。全部指标为仓库引擎实测值（`data/oos_results.json`），非平台截图。
+
 ## 快速复现
 
 ```bash
